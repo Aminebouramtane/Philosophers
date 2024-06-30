@@ -1,2 +1,2 @@
 # Philosophers
-___1337_project
+1337 project
