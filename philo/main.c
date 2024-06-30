@@ -1,0 +1,6 @@
+
+
+#include "philo.h"
+
+;
+}
