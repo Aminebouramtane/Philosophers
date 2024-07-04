@@ -21,6 +21,12 @@ void    ft_initlaze_table(t_table *table, char **av)
     table->start_at = ft_gettime();
 }
 
+void	ft_create_forks(t_table *table)
+{
+	table->philo = malloc(sizeof(t_philo) * table->nb_of_philo);
+	table->forks = malloc(sizeof(t_mutex) * table->nb_of_philo);
+}
+
 void    ft_init(int ac, char **av)
 {
     t_table *table;
@@ -41,9 +47,10 @@ int main(int ac, char **av)
         ft_putstr("enter\n");
     }
 }
-    // printf("%zu\n", table->nb_of_philo);
-    // printf("%zu\n", table->time_to_die);
-    // printf("%zu\n", table->time_to_eat);
-    // printf("%zu\n", table->time_to_sleep);
-    // printf("%d\n", table->five_args);
-    // printf("->>>>>>>>>>>>%zu\n", table->start_at);
+
+// printf("%zu\n", table->nb_of_philo);
+// printf("%zu\n", table->time_to_die);
+// printf("%zu\n", table->time_to_eat);
+// printf("%zu\n", table->time_to_sleep);
+// printf("%d\n", table->five_args);
+// printf("->>>>>>>>>>>>%zu\n", table->start_at);

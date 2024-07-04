@@ -20,10 +20,8 @@ typedef struct s_philo
     int         meals_counter;
     int         if_full;
     size_t      last_meal;
-    int         fork_id;
-    t_mutex     left_fork;
-    t_mutex     right_fork;
-
+    t_mutex     *left_fork;
+    t_mutex     *right_fork;
 }       t_philo;
 
 typedef struct s_table
@@ -36,6 +34,7 @@ typedef struct s_table
     size_t      start_at;
     int         die_or_full;
     int         five_args;
+    t_mutex     *forks;
     t_philo     *philo;
 }       t_table;
 
