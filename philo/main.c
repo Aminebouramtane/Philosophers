@@ -21,10 +21,23 @@ void    ft_initlaze_table(t_table *table, char **av)
     table->start_at = ft_gettime();
 }
 
-void	ft_create_forks(t_table *table)
+int 	intial_mutex(t_table *table)
 {
-	table->philo = malloc(sizeof(t_philo) * table->nb_of_philo);
+    int     i;
+
+    i = -1;
 	table->forks = malloc(sizeof(t_mutex) * table->nb_of_philo);
+    if (!table->forks)
+        return (NULL);
+    while (++i < table->nb_of_philo)
+    {
+        if (pthread_mutex_init(&table->forks[i], NULL) == -1)
+        {
+            ft_putstr("[ERROR] probelme in mutex ...");
+            exit(1);
+        }
+    }
+    return (1);
 }
 
 void    ft_init(int ac, char **av)
@@ -37,6 +50,11 @@ void    ft_init(int ac, char **av)
     if (ac == 6)
         table->five_args = 1;
     ft_initlaze_table(table, av);
+    if (!intial_mutex(table))
+    {
+        ft_putstr("[ERROR] initile mutex ...");
+        exit(1);
+    }
 }
 
 int main(int ac, char **av)
