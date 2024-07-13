@@ -39,7 +39,7 @@ typedef struct s_table
 }       t_table;
 
 void    ft_putstr(char *str);
-int ft_atoi(char *in);
+int     ft_atoi(char *in);
 
 
 #endif
