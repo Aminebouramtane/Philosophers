@@ -19,6 +19,7 @@ typedef struct s_philo
     pthread_t   philo;
     int         meals_counter;
     int         if_full;
+    int			philo_number;
     size_t      last_meal;
     t_mutex     *left_fork;
     t_mutex     *right_fork;
@@ -40,6 +41,7 @@ typedef struct s_table
 
 void    ft_putstr(char *str);
 int     ft_atoi(char *in);
+void    create_pthreads(t_table *table);
 
 
 #endif
