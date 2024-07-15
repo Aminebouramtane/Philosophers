@@ -44,6 +44,7 @@ void    ft_init(int ac, char **av)
     table = malloc(sizeof(t_table));
     if (!table)
         return ;
+    table->five_args = 0;
     if (ac == 6)
         table->five_args = 1;
     ft_initlaze_table(table, av);

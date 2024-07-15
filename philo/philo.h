@@ -12,17 +12,17 @@
 typedef pthread_mutex_t t_mutex;
 
 typedef struct timeval t_time;
-
+typedef struct s_table t_table;
 typedef struct s_philo
 {
     int         philo_id;
     pthread_t   philo;
     int         meals_counter;
     int         if_full;
-    int			philo_number;
     size_t      last_meal;
     t_mutex     *left_fork;
     t_mutex     *right_fork;
+    t_table     *table;
 }       t_philo;
 
 typedef struct s_table
@@ -42,6 +42,6 @@ typedef struct s_table
 void    ft_putstr(char *str);
 int     ft_atoi(char *in);
 void    create_pthreads(t_table *table);
-
+size_t     ft_gettime(void);
 
 #endif
