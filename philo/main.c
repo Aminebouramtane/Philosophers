@@ -13,8 +13,8 @@ size_t     ft_gettime(void)
 void    ft_initlaze_table(t_table *table, char **av)
 {
     table->nb_of_philo = atoi(av[1]);
-    table->time_to_die = atoi(av[3]);
-    table->time_to_eat = atoi(av[2]);
+    table->time_to_die = atoi(av[2]);
+    table->time_to_eat = atoi(av[3]);
     table->time_to_sleep = atoi(av[4]);
     if (table->five_args)
         table->nb_of_meals = atoi(av[5]);
