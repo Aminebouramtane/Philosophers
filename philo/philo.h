@@ -22,6 +22,8 @@ typedef struct s_philo
     size_t      last_meal;
     t_mutex     *left_fork;
     t_mutex     *right_fork;
+    t_mutex     *eating;
+    t_mutex     *sleep;
     t_table     *table;
 }       t_philo;
 
@@ -37,6 +39,7 @@ typedef struct s_table
     int         five_args;
     t_mutex     *forks;
     t_philo     *philo;
+    int         flag;
 }       t_table;
 
 void    ft_putstr(char *str);
