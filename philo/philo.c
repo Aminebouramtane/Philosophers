@@ -12,13 +12,15 @@ void ft_usleep(size_t time)
 void    ft_eating(t_philo *philo, t_table *table)
 {
         pthread_mutex_lock(philo->right_fork);
-        if (!table->flag)
-            exit(0);
-        printf("%zu %d has taken a fork\n", (ft_gettime() - table->start_at), philo->philo_id);
+        if (table->flag)
+            printf("%zu %d has taken a fork\n", (ft_gettime() - table->start_at), philo->philo_id);
         pthread_mutex_lock(philo->left_fork);
         philo->last_meal = ft_gettime();
-        printf("%zu %d has taken a fork\n", (ft_gettime() - table->start_at), philo->philo_id);
-        printf("%zu %d is eating\n", (ft_gettime() - table->start_at), philo->philo_id);
+        if (table->flag)
+            printf("%zu %d has taken a fork\n", (ft_gettime() - table->start_at), philo->philo_id);
+        if (table->flag)
+            printf("%zu %d is eating\n", (ft_gettime() - table->start_at), philo->philo_id);
+        philo->if_full++;
         ft_usleep(table->time_to_eat);
         pthread_mutex_unlock(philo->right_fork);
         pthread_mutex_unlock(philo->left_fork);
@@ -26,16 +28,14 @@ void    ft_eating(t_philo *philo, t_table *table)
 
 void    ft_think(t_philo *philo, t_table *table)
 {
-    if (!table->flag)
-        exit(0);
-    printf("%zu %d is thinking\n", (ft_gettime() - table->start_at), philo->philo_id);
+    if (table->flag)
+        printf("%zu %d is thinking\n", (ft_gettime() - table->start_at), philo->philo_id);
 }
 
 void    ft_sleep(t_philo *philo, t_table *table)
 {
-    if (!table->flag)
-        exit(0);
-    printf("%zu %d is sleeping\n", (ft_gettime() - table->start_at), philo->philo_id);
+    if (table->flag)
+        printf("%zu %d is sleeping\n", (ft_gettime() - table->start_at), philo->philo_id);
     ft_usleep(table->time_to_sleep);
 }
 
@@ -46,8 +46,15 @@ void    *routine(void *philos)
     t_table *table = philo->table;
     if (philo->philo_id % 2 != 0)
         ft_usleep(table->time_to_sleep);
-    while (1)
+    while (table->flag)
     {
+        pthread_mutex_lock(table->flag_mutex);
+        if (!table->flag)
+        {
+            pthread_mutex_unlock(table->flag_mutex);
+            break;
+        }
+        pthread_mutex_unlock(table->flag_mutex);
         ft_eating(philo, table);
         ft_sleep(philo, table);
         ft_think(philo, table);
@@ -82,21 +89,21 @@ void    ft_monitor(t_table *table, t_philo *philo)
     size_t i;
     size_t time;
 
-    table->flag = 1;
     while (table->flag)
     {
         i = 0;
         while (i < table->nb_of_philo)
         {
             time = ft_gettime();
-            if (!table->flag)
-                exit (0);
-            if (time - philo[i].last_meal > table->time_to_die)
+            pthread_mutex_lock(table->flag_mutex);
+            if (time - philo[i].last_meal > table->time_to_die || philo->if_full == table->nb_of_meals
+            || table->nb_of_philo == 1)
             {
-                printf("%zu %d died\n", (time - table->start_at), philo[i].philo_id);
                 table->flag = 0;
-                exit(0);
+                printf("%zu %d died\n", (time - table->start_at), philo[i].philo_id);
+                break ;
             }
+            pthread_mutex_unlock(table->flag_mutex);
             i++;
         }
     }

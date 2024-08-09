@@ -18,12 +18,10 @@ typedef struct s_philo
     int         philo_id;
     pthread_t   philo;
     int         meals_counter;
-    int         if_full;
+    size_t      if_full;
     size_t      last_meal;
     t_mutex     *left_fork;
     t_mutex     *right_fork;
-    t_mutex     *eating;
-    t_mutex     *sleep;
     t_table     *table;
 }       t_philo;
 
@@ -39,6 +37,7 @@ typedef struct s_table
     int         five_args;
     t_mutex     *forks;
     t_philo     *philo;
+    t_mutex     *flag_mutex;
     int         flag;
 }       t_table;
 
