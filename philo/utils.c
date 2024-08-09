@@ -34,7 +34,7 @@ int ft_atoi(char *in)
     }
     while (in[i])
 	{
-		res = res + (in[i] - '0');
+		res = res * 10 + (in[i] - '0');
 		if (res > 2147483647)
 			ft_putstr("[ERROR] Number to big ...");
 		i++;
