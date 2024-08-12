@@ -14,6 +14,11 @@ void    ft_eating(t_philo *philo, t_table *table)
         pthread_mutex_lock(philo->right_fork);
         if (table->flag)
             printf("%zu %d has taken a fork\n", (ft_gettime() - table->start_at), philo->philo_id);
+        if (table->nb_of_philo == 1)
+        {
+            while (ft_gettime() - philo->last_meal < table->time_to_die);
+            return;
+        }
         pthread_mutex_lock(philo->left_fork);
         philo->last_meal = ft_gettime();
         if (table->flag)
@@ -58,6 +63,8 @@ void    *routine(void *philos)
         ft_eating(philo, table);
         ft_sleep(philo, table);
         ft_think(philo, table);
+        if (table->nb_of_philo == 1 && !table->flag)
+            break;
     }
     return (0);
 }
@@ -96,8 +103,7 @@ void    ft_monitor(t_table *table, t_philo *philo)
         {
             time = ft_gettime();
             pthread_mutex_lock(table->flag_mutex);
-            if (time - philo[i].last_meal > table->time_to_die || philo->if_full == table->nb_of_meals
-            || table->nb_of_philo == 1)
+            if (time - philo[i].last_meal > table->time_to_die || philo->if_full == table->nb_of_meals)
             {
                 table->flag = 0;
                 printf("%zu %d died\n", (time - table->start_at), philo[i].philo_id);
@@ -106,6 +112,7 @@ void    ft_monitor(t_table *table, t_philo *philo)
             pthread_mutex_unlock(table->flag_mutex);
             i++;
         }
+
     }
 }
 
@@ -129,6 +136,3 @@ void    create_pthreads(t_table *table)
     while (++i < table->nb_of_philo)
         pthread_join(philo[i].philo, NULL);
 }
-
-
-

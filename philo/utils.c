@@ -28,7 +28,7 @@ int ft_atoi(char *in)
         if (in[i] == '-')
         {
 			ft_putstr("[ERROR] give me positive numbers ...");
-			exit(1);
+			return (-1);
 		}
 		i++;
     }
@@ -36,7 +36,10 @@ int ft_atoi(char *in)
 	{
 		res = res * 10 + (in[i] - '0');
 		if (res > 2147483647)
+        {
 			ft_putstr("[ERROR] Number to big ...");
+            return (-1);
+        }
 		i++;
 	}
 	return(res);
