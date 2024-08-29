@@ -12,6 +12,9 @@ size_t     ft_gettime(void)
 
 void    ft_initlaze_table(t_table *table, char **av)
 {
+    if (ft_atoi(av[1]) == -1 || ft_atoi(av[2]) == -1 || ft_atoi(av[3]) == -1
+    || ft_atoi(av[4]) == -1 || (av[5] && ft_atoi(av[5]) == -1))
+        return ;
     table->nb_of_philo = ft_atoi(av[1]);
     table->time_to_die = ft_atoi(av[2]);
     table->time_to_eat = ft_atoi(av[3]);
@@ -22,6 +25,7 @@ void    ft_initlaze_table(t_table *table, char **av)
         table->nb_of_meals = -2;
     table->start_at = ft_gettime();
     table->flag = 1;
+    table->all_eat = 0;
 }
 
 int 	intial_mutex(t_table *table)
@@ -70,10 +74,3 @@ int main(int ac, char **av)
         ft_init(ac, av);
     }
 }
-
-// printf("%zu\n", table->nb_of_philo);
-// printf("%zu\n", table->time_to_die);
-// printf("%zu\n", table->time_to_eat);
-// printf("%zu\n", table->time_to_sleep);
-// printf("%d\n", table->five_args);
-// printf("->>>>>>>>>>>>%zu\n", table->start_at);

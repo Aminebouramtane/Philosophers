@@ -39,6 +39,7 @@ typedef struct s_table
     t_philo     *philo;
     t_mutex     *flag_mutex;
     int         flag;
+    size_t      all_eat;
 }       t_table;
 
 void    ft_putstr(char *str);
