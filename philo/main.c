@@ -35,11 +35,21 @@ int 	intial_mutex(t_table *table)
     i = -1;
 	table->forks = malloc(sizeof(t_mutex) * table->nb_of_philo);
     if (!table->forks)
+    {
         return (0);
+    }
+	table->m_last_meal = malloc(sizeof(t_mutex));
+    if (!table->m_last_meal)
+    {
+        return (0);
+    }
     table->flag_mutex = malloc(sizeof(t_mutex));
     if (!table->flag)
-        return 0;
+    {
+        return (0);
+    }
     pthread_mutex_init(table->flag_mutex, NULL);
+    pthread_mutex_init(table->m_last_meal, NULL);
     while (++i < table->nb_of_philo)
     {
         if (pthread_mutex_init(&table->forks[i], NULL) == -1)

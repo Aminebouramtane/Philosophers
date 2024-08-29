@@ -20,6 +20,7 @@ void ft_usleep(size_t time, t_table *table)
 
 void    ft_eating(t_philo *philo, t_table *table)
 {
+    pthread_mutex_lock(table->m_last_meal);
     if (table->all_eat >= table->nb_of_meals)
         return ;
     pthread_mutex_lock(philo->right_fork);
@@ -39,7 +40,7 @@ void    ft_eating(t_philo *philo, t_table *table)
         printf("%zu %d is eating\n", (ft_gettime() - table->start_at), philo->philo_id);
     philo->if_full++;
     pthread_mutex_lock(table->flag_mutex);
-    if (philo->if_full == table->nb_of_meals)
+    if (philo->if_full == table->nb_of_meals + 1)
         table->all_eat += 1;
     if (philo->if_full == table->nb_of_meals)
     {
@@ -47,12 +48,14 @@ void    ft_eating(t_philo *philo, t_table *table)
         pthread_mutex_unlock(table->flag_mutex);
         pthread_mutex_unlock(philo->right_fork);
         pthread_mutex_unlock(philo->left_fork);
+        pthread_mutex_unlock(table->m_last_meal);
         return ;
     }
     pthread_mutex_unlock(table->flag_mutex);
     ft_usleep(table->time_to_eat, table);
     pthread_mutex_unlock(philo->right_fork);
     pthread_mutex_unlock(philo->left_fork);
+    pthread_mutex_unlock(table->m_last_meal);
 }
 
 void    ft_think(t_philo *philo, t_table *table)
@@ -125,6 +128,7 @@ void    ft_monitor(t_table *table, t_philo *philo)
         i = 0;
         while (i < table->nb_of_philo)
         {
+            pthread_mutex_lock(table->m_last_meal);
             time = ft_gettime();
             pthread_mutex_lock(table->flag_mutex);
             if (time - philo[i].last_meal > table->time_to_die || table->all_eat >= table->nb_of_meals)
@@ -132,9 +136,11 @@ void    ft_monitor(t_table *table, t_philo *philo)
                 table->flag = 0;
                 printf("%zu %d died\n", (time - table->start_at), philo[i].philo_id);
                 pthread_mutex_unlock(table->flag_mutex);
+                pthread_mutex_unlock(table->m_last_meal);
                 break ;
             }
             pthread_mutex_unlock(table->flag_mutex);
+            pthread_mutex_unlock(table->m_last_meal);
             i++;
         }
     }

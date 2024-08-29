@@ -38,6 +38,7 @@ typedef struct s_table
     t_mutex     *forks;
     t_philo     *philo;
     t_mutex     *flag_mutex;
+    t_mutex     *m_last_meal;
     int         flag;
     size_t      all_eat;
 }       t_table;
