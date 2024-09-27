@@ -2,9 +2,9 @@ NAME = philo
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g3
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread -g3
 
-SRC = main.c utils.c philo.c
+SRC = main.c ft_atoi.c
 
 OBJ = $(SRC:.c=.o)
 
