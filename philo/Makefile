@@ -4,7 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread -g3
 
-SRC = main.c ft_atoi.c
+SRC = main.c parce.c actions.c init.c monitoring.c print.c
 
 OBJ = $(SRC:.c=.o)
 
