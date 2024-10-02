@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouramt <abouramt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amine <amine@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:36:10 by abouramt          #+#    #+#             */
-/*   Updated: 2024/09/30 11:43:23 by abouramt         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:39:30 by amine            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef struct s_table
 
 typedef struct s_philo
 {
-	pthread_t		philo;
 	int				philo_id;
 	int				number_of_meals;
 	long			last_time_eat;
@@ -64,7 +63,7 @@ int		ft_think(t_philo *philo);
 void	*routine(void *my_philo);
 void	ft_print_take_fork(t_philo *philo, int flag);
 void	*ft_monitor(void *philos);
-void	ft_initlaze_table(t_table *table, char **av, int flag);
+int	ft_initlaze_table(t_table *table, char **av, int flag);
 int		init_mutexes(t_table *table, t_mutex *mutexes);
 void	init_philo(t_table *table, t_philo *philo, t_mutex *mutexes);
 size_t	ft_gettime(void);
@@ -72,5 +71,6 @@ int		ft_usleep(long time);
 int		check_meals(t_philo *philo);
 int		check_for_one(t_philo *philo);
 void	ft_join(t_table *table, t_mutex *mutexes, t_philo *philo);
+void	ft_putstr(char *str);
 
 #endif

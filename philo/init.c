@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouramt <abouramt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amine <amine@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:36:35 by abouramt          #+#    #+#             */
-/*   Updated: 2024/09/30 11:36:39 by abouramt         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:38:37 by amine            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_initlaze_table(t_table *table, char **av, int flag)
+int	ft_initlaze_table(t_table *table, char **av, int flag)
 {
 	if (ft_atoi(av[1]) == -1 || ft_atoi(av[2]) == -1 || ft_atoi(av[3]) == -1
 		|| ft_atoi(av[4]) == -1 || (av[5] && ft_atoi(av[5]) == -1))
-		return ;
+		return (1);
 	table->nb_of_philo = ft_atoi(av[1]);
 	table->time_to_die = ft_atoi(av[2]);
 	table->time_to_eat = ft_atoi(av[3]);
@@ -28,6 +28,7 @@ void	ft_initlaze_table(t_table *table, char **av, int flag)
 	table->time_to_start = 0;
 	table->stop = 0;
 	table->number_philos_ate = 0;
+	return (0);
 }
 
 int	init_mutexes(t_table *table, t_mutex *mutexes)

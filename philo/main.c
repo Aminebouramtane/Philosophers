@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouramt <abouramt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amine <amine@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:36:29 by abouramt          #+#    #+#             */
-/*   Updated: 2024/09/30 11:38:25 by abouramt         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:39:07 by amine            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ int	check_meals(t_philo *philo)
 
 int	check_for_one(t_philo *philo)
 {
-	int		end_simulation;
+	int		end;
 
 	if (philo->table->nb_of_philo == 1)
 	{
 		pthread_mutex_lock(philo->table->m1);
-		end_simulation = philo->table->stop;
+		end = philo->table->stop;
 		pthread_mutex_unlock(philo->table->m1);
-		while (end_simulation == 0)
+		while (end == 0)
 		{
 			pthread_mutex_lock(philo->table->m1);
-			end_simulation = philo->table->stop;
+			end = philo->table->stop;
 			pthread_mutex_unlock(philo->table->m1);
 		}
 		pthread_mutex_unlock(philo->left_fork);
@@ -78,6 +78,18 @@ void	ft_join(t_table *table, t_mutex *mutexes, t_philo *philo)
 	free(mutexes);
 }
 
+int	ft_err(t_table *table)
+{
+	if (table->nb_of_philo < 1 || table->nb_of_philo > 200
+		|| table->time_to_die < 60 || table->time_to_eat < 60
+		|| table->time_to_sleep < 60 || table->nb_of_meals == 0)
+	{
+		ft_putstr("[ERROR] in inputs ...\n");
+		return (1);
+	}
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_table		table;
@@ -88,10 +100,9 @@ int	main(int ac, char **av)
 	i = -1;
 	if (ac < 5 || ac > 6)
 		return (1);
-	ft_initlaze_table(&table, av, ac == 6);
-	if (table.nb_of_philo < 1 || table.nb_of_philo > 200
-		|| table.time_to_die < 60 || table.time_to_eat < 60
-		|| table.time_to_sleep < 60 || table.nb_of_meals == 0)
+	if (ft_initlaze_table(&table, av, ac == 6))
+		return (1);
+	if (ft_err(&table))
 		return (1);
 	table.threads = malloc(sizeof(pthread_t) * table.nb_of_philo);
 	mutexes = malloc(sizeof(t_mutex) * table.nb_of_philo);

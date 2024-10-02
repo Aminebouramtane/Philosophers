@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parce.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abouramt <abouramt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amine <amine@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:36:17 by abouramt          #+#    #+#             */
-/*   Updated: 2024/09/30 11:40:34 by abouramt         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:36:57 by amine            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,23 @@ void	ft_putstr(char *str)
 	}
 }
 
+int	ft_util(int *res, char *in, int	*i)
+{
+	if (in[*i] >= '0' && in[*i] <= '9')
+		*res = *res * 10 + (in[*i] - '0');
+	else
+	{
+		ft_putstr("[ERROR] Not a number ...\n");
+		return (-1);
+	}
+	if (*res > 2147483647)
+	{
+		ft_putstr("[ERROR] Number to big ...\n");
+		return (-1);
+	}
+	return (0);
+}
+
 int	ft_atoi(char *in)
 {
 	int		res;
@@ -55,25 +72,15 @@ int	ft_atoi(char *in)
 	{
 		if (in[i] == '-')
 		{
-			ft_putstr("[ERROR] give me positive numbers ...");
+			ft_putstr("[ERROR] give me positive numbers ...\n");
 			return (-1);
 		}
 		i++;
 	}
 	while (in[i])
 	{
-		if (in[i] >= '0' && in[i] <= '9')
-			res = res * 10 + (in[i] - '0');
-		else
-		{
-			ft_putstr("[ERROR] Not a number ...");
+		if (ft_util(&res, in, &i) == -1)
 			return (-1);
-		}
-		if (res > 2147483647)
-		{
-			ft_putstr("[ERROR] Number to big ...");
-			return (-1);
-		}
 		i++;
 	}
 	return (res);
